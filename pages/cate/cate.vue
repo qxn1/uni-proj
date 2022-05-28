@@ -1,5 +1,7 @@
 <template>
 	<view>
+		<!-- 使用自定义的搜索组件，只要创建了组件就可以在页面中以标签的形式直接使用 -->
+		<my-search @click="gotoSearch"></my-search>
 		<!-- 主体滑动部分 -->
 		<view class="scroll-view-container">
 		<!-- 左侧一级滑动标题选择 -->
@@ -24,6 +26,7 @@
 			</view>
 		</scroll-view>
 		</view>
+		
 	</view>
 </template>
 
@@ -47,7 +50,7 @@
 			//获取Uniapp定义的系统参数设置，动态根据手机来适应屏幕高度
 			const sysInfo = uni.getSystemInfoSync()
 				//console.log(sysInfo)
-			this.wh = sysInfo.windowHeight
+			this.wh = sysInfo.windowHeight-50
 			
 			//调用获取一级商品分类数据
 			this.getCateList()
@@ -85,6 +88,14 @@
 			// gotoGoodsList(){
 			// 	uni.$http.get('')
 			// }
+			
+			//点击搜索框触发事件
+			gotoSearch(){
+				//console.log("ok");
+				uni.navigateTo({
+					url:'/subpkg/search/search'
+				})
+			}
 		}
 	}
 </script>
