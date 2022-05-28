@@ -53,12 +53,19 @@
                 }
                 ,{
                     "path" : "goods_list/goods_list",
-                    "style" :                                                                                    
+                    "style" :
                 {
                     "navigationBarTitleText": "",
-                    "enablePullDownRefresh": false
+                    "enablePullDownRefresh": false,
+					
+					// 手动配置：当滚动条距离页面底部不足150像素时，会触动下拉触底效果
+					"onReachBottomDistance" : 150,
+					// 手动配置：开启当前页面下拉刷新效果
+					"enablePullDownRefresh":true,
+					//设置下拉刷新效果的背景颜色
+					"backgroundColor": "#f8f8f8"
                 }
-                
+               
                 }
                 ,{
                     "path" : "search/search",
