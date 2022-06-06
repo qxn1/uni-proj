@@ -47,7 +47,7 @@
 			};
 		},
 		onLoad(){
-			this.historyList = JSON.parse(this.setStorageSync("kw") ||"[]")
+			this.historyList = JSON.parse(uni.setStorageSync("kw") ||"[]")
 		},
 		methods:{
 			//搜索框输入事件

@@ -31,7 +31,11 @@
 </template>
 
 <script>
+	import badgeMix from '@/mixins/tabbar-badge.js'
+	
 	export default {
+		//调用导入的badgeMix方法
+		mixins:[badgeMix],
 		data() {
 			return {
 				//屏幕可用高度
@@ -61,7 +65,7 @@
 			//获取商品分类数据
 			async getCateList(){
 				 const {data:res }= await uni.$http.get('/api/public/v1/categories')
-				console.log(res)
+				//console.log(res)
 				if(res.meta.status !==200){
 					return uni.$showMsg}
 				this.cateList = res.message

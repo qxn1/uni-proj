@@ -42,8 +42,10 @@ mpMixins = {
 		},
 
 		appTouchStart(e) {
-			let is_pc = isPC() || false
-			if (is_pc) return
+			let is_pc = function(){
+				return false
+			}
+			// if (is_pc) return 
 			const {
 				clientX
 			} = e.changedTouches[0]
@@ -51,8 +53,10 @@ mpMixins = {
 			this.timestamp = new Date().getTime()
 		},
 		appTouchEnd(e, index, item, position) {
-			let is_pc = isPC() || false
-			if (is_pc) return
+			let is_pc = function(){
+				return false
+			}
+			// if (is_pc) return
 			const {
 				clientX
 			} = e.changedTouches[0]
@@ -69,8 +73,10 @@ mpMixins = {
 		},
 		onClickForPC(index, item, position) {
 
-			let is_pc = isPC() || false
-			if (is_pc) return
+			let is_pc = function(){
+				return false
+			}
+			// if (is_pc) return
 			// #ifdef H5
 			this.$emit('click', {
 				content: item,

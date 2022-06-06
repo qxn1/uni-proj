@@ -2,6 +2,8 @@
 // #ifndef VUE3
 import Vue from 'vue'
 import App from './App'
+//@/代表项目根目录
+import store from '@/store/store.js'
 //导入网络请求的包
 import { $http } from '@escook/request-miniprogram'
 
@@ -13,6 +15,14 @@ $http.beforeRequest = function (options){
 	uni.showLoading({
 		title:"数据加载中"
 	})
+	//console.log(store);
+	//判断当前请求的是否为有权限的接口
+	if(options.url.indexOf('/my/')!== -1){
+		options.header = {
+			//添加身份认证的字段
+			Authorization:store.state.m_user.token
+		}
+	}
 }
 //响应拦截器
 $http.afterRequest = function () {
@@ -36,7 +46,9 @@ Vue.config.productionTip = false
 App.mpType = 'app'
 
 const app = new Vue({
-    ...App
+    ...App,
+	//把store挂载到
+	store
 })
 app.$mount()
 // #endif

@@ -44,7 +44,12 @@
 </template>
 
 <script>
+	//这样在用户直接在商品详情页加入购物车后，直接返回首页或其他页面时，tabbar里面的 购物车也会显示数字徽标
+	import badgeMix from '@/mixins/tabbar-badge.js'
+	
 	export default {
+		//调用导入的badgeMix方法
+		mixins:[badgeMix],
 		data() {
 			return {
 				//存放轮播图的数组
@@ -93,7 +98,7 @@
 			//请求商品楼层区的数据
 			async getFloorList(){
 				const {data: res} = await uni.$http.get('/api/public/v1/home/floordata')
-				console.log(res)
+				//console.log(res)
 				//res.meta.status===200?this.floorList=res.message:uni.$showMsg
 				if(res.meta.status !==200){
 					//请求失败的弹窗

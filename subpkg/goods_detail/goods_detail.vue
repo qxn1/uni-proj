@@ -38,7 +38,44 @@
 </template>
 
 <script>
+	//从vuex中按需导出mapState方法
+	import {mapState,mapMutations,mapGetters} from 'vuex'
+	
 	export default {
+		computed:{
+			//把'm_cart'当中的数据或方法映射到当前页面作为计算属性,这样在当前页中就可以拿到相对应的数据或方法。
+			...mapState('m_cart',[]),
+			...mapGetters('m_cart',['total'])
+		},
+		//定义一个侦听器。
+		//当total数值变化的时候，将新的值转存到info小圆方法格式的侦听器在默认值时,当页面首次加载完毕，不会立即调用侦听器。防止上述问题可以使用对象的形式来定义watch侦听器,这样就会立即加载
+		watch:{
+			// //监听ֵtotal数值的变化。
+			// total(newVal){
+			// 	//拿到当前页面中的购物车属性，x代表options对象当中的某一项
+			// 	const car =this.options.find(x=>x.text==='购物车')
+			// 	//将新变化的购物车总值,赋给购物车上面的小圆点。
+			// 	if(car){
+			// 		car.info = newVal
+			// 	}
+			// }
+		
+			total:{
+				//handler侦听器处理函数
+				handler(newVal){
+					//拿到当前页面中的购物车属性，x代表options对象当中的某一项
+						const car =this.options.find(x=>x.text==='购物车')
+						//将新变化的购物车总值,赋给购物车上面的小圆点。
+						if(car){
+							car.info = newVal
+						}
+				},
+				//代表第一次进入就触发
+				immediate:true
+			}
+			
+			
+		},
 		data() {
 			return {
 				//商品详情对象
@@ -53,7 +90,7 @@
 				        }, {
 				          icon: 'cart',
 				          text: '购物车',
-				          info: 2
+				          info: 0
 				        }],
 				//右侧
 				customButtonGroup: [{
@@ -77,6 +114,8 @@
 		},
 		
 		methods:{
+			//把他的返回值通过展开运算符,交给methods方法。
+			...mapMutations('m_cart',['addToCart']),
 			//获取商品详情数据
 			async getGoodsDetail(goods_id){
 				const {data:res} = await uni.$http.get('/api/public/v1/goods/detail',{goods_id : goods_id})
@@ -90,7 +129,7 @@
 				res.message.goods_introduce=res.message.goods_introduce.replace(/<img /g,'<img style="display:block;"').replace(/webp/g,'jpg')
 				
 				this.goods_info=res.message
-				console.log(this.goods_info)
+				//console.log(this.goods_info)
 			},
 			//点击轮播图图片可以放大预览对应图片
 			preview(i){
@@ -110,9 +149,27 @@
 						url:'/pages/cart/cart'
 					})
 				}
-			}
+			},
+			 buttonClick(e) {
+				 //判断是否点击了 加入购物车 按钮。
+			        if (e.content.text === '加入购物车') {
+						
+			          // 组织一个商品的信息对象
+			          // { goods_id, goods_name, goods_price, goods_count, goods_small_logo, goods_state }
+			          const goods = {
+			            goods_id: this.goods_info.goods_id,
+			            goods_name: this.goods_info.goods_name,
+			            goods_price: this.goods_info.goods_price,
+			            goods_count: 1,
+			            goods_small_logo: this.goods_info.goods_small_logo,
+			            goods_state: true//商品选中状态
+			          }
 			
-		}
+			          // 通过this调用映射过来的 addToCart 方法,把商品信息对象goods存储到购物车cart中。
+			          this.addToCart(goods)
+			        }
+			}
+		},
 	}
 </script>
 
